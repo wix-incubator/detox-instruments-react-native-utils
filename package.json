@@ -1,6 +1,6 @@
 {
   "name": "detox-instruments-react-native-utils",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "React Native JS Utils for DetoxInstruments",
   "main": "src/index.js",
   "scripts": {
