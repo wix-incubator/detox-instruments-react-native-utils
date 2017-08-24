@@ -10,17 +10,56 @@ class DetoxInstrumentsRNLogger {
     console.log = this._customConsoleLog;
   }
 
+  _canLogToDtxHook(args) {
+    return global.dtxNativeLoggingHook && global.dtx_numberOfRecordings > 0 && !isCyclic(args);
+  }
+
   _customConsoleLog() {
-    const firstArg = arguments[0];
-    const isSingleStringArg = (arguments.length === 1 && isString(firstArg));
-    const newArguments = isSingleStringArg ? [formatArg(firstArg)] :
-                         Object.keys(arguments).map((arg, key) => formatArg(arguments[key]));
-    this._origConsoleLog.apply(this, newArguments);
+    if(this._canLogToDtxHook(arguments)) {
+      global.dtxNativeLoggingHook(arguments);
+    } else {
+      this._origConsoleLog.apply(this, arguments);
+    }
   }
 }
 
 const LOG_MARKER = '!@!';
 const isString = (value) => typeof value === 'string';
 const formatArg = (arg) => isString(arg) ? `${LOG_MARKER}${arg}${LOG_MARKER}` : `${LOG_MARKER}${JSON.stringify(arg)}${LOG_MARKER}`;
+
+function isCyclic(obj) {
+  const keys = [];
+  const stack = [];
+  const stackSet = new Set();
+  let detected = false;
+
+  function detect(obj, key) {
+    if (typeof obj !== 'object') {
+      return;
+    }
+
+    if (stackSet.has(obj)) { // it's cyclic!
+      detected = true;
+      return;
+    }
+
+    keys.push(key);
+    stack.push(obj);
+    stackSet.add(obj);
+
+    for (let k in obj) { //dive on the object's children
+      if (obj.hasOwnProperty(k)) {
+        detect(obj[k], k);
+      }
+    }
+
+    keys.pop();
+    stack.pop();
+    stackSet.delete(obj);
+  }
+
+  detect(obj, 'obj');
+  return detected;
+}
 
 export default new DetoxInstrumentsRNLogger();
