@@ -14,18 +14,24 @@ class DetoxInstrumentsRNLogger {
     return global.dtxNativeLoggingHook && global.dtx_numberOfRecordings > 0 && !isCyclic(args);
   }
 
+  _createLogLine(args) {
+    let logLine = '';
+    for (let i = 0; i < args.length; i++) {
+      logLine += `${isString(args[i]) ? args[i] : JSON.stringify(args[i])}, `;
+    }
+    return logLine;
+  }
+
   _customConsoleLog() {
     if(this._canLogToDtxHook(arguments)) {
-      global.dtxNativeLoggingHook(arguments);
+      global.dtxNativeLoggingHook(arguments, this._createLogLine(arguments));
     } else {
       this._origConsoleLog.apply(this, arguments);
     }
   }
 }
 
-const LOG_MARKER = '!@!';
 const isString = (value) => typeof value === 'string';
-const formatArg = (arg) => isString(arg) ? `${LOG_MARKER}${arg}${LOG_MARKER}` : `${LOG_MARKER}${JSON.stringify(arg)}${LOG_MARKER}`;
 
 function isCyclic(obj) {
   const keys = [];
