@@ -1,4 +1,3 @@
-
 class DetoxInstrumentsRNLogger {
   constructor() {
     this._customConsoleLog = this._customConsoleLog.bind(this);
