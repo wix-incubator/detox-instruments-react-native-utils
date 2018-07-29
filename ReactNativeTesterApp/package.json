@@ -7,33 +7,8 @@
   },
   "dependencies": {
     "detox-instruments-react-native-utils": "file:../",
-    "react": "16.0.0",
-    "react-native": "^0.54.0"
+    "react": "16.4.1",
+    "react-native": "^0.56.0"
   },
-  "devDependencies": {
-    "babel-jest": "20.0.3",
-    "babel-preset-react-native": "2.1.0",
-    "eslint": "^4.5.0",
-    "eslint-config-wix": "^1.1.16",
-    "eslint-plugin-react-native": "^3.0.1"
-  },
-  "jest": {
-    "preset": "react-native"
-  },
-  "main": "index.js",
-  "babel": {
-    "env": {
-      "specs": {
-        "presets": [
-          "react-native"
-        ],
-        "retainLines": "true"
-      }
-    }
-  },
-  "rnx": {
-    "appName": "ReactNativeTesterApp",
-    "iphoneModel": "iPhone 6s",
-    "packageName": "com.org.ReactNativeTesterApp"
-  },
+  "main": "index.js"
 }
