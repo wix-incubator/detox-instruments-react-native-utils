@@ -36,19 +36,4 @@
     "iphoneModel": "iPhone 6s",
     "packageName": "com.org.ReactNativeTesterApp"
   },
-  "detox": {
-    "specs": "test/e2e",
-    "configurations": {
-      "ios.sim.debug": {
-        "binaryPath": "ios/DerivedData/ReactNativeTesterApp/Build/Products/Debug-iphonesimulator/ReactNativeTesterApp.app",
-        "type": "ios.simulator",
-        "name": "iPhone 6s"
-      },
-      "ios.sim.release": {
-        "binaryPath": "ios/DerivedData/ReactNativeTesterApp/Build/Products/Release-iphonesimulator/ReactNativeTesterApp.app",
-        "type": "ios.simulator",
-        "name": "iPhone 6s"
-      }
-    }
-  }
 }
