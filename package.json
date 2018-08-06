@@ -1,14 +1,11 @@
 {
   "name": "detox-instruments-react-native-utils",
   "version": "1.0.2",
-  "description": "React Native JS Utils for DetoxInstruments",
+  "description": "React Native JavaScript Utils for Detox Instruments",
   "main": "src/index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wix/DetoxInstrumentsReactNativeUtils.git"
+    "url": "https://github.com/wix/detox-instruments-react-native-utils.git"
   },
   "author": {
     "name": "artald",
@@ -17,7 +14,7 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/wix/DetoxInstrumentsReactNativeUtils/issues"
+    "url": "https://github.com/wix/DetoxInstruments/issues"
   },
-  "homepage": "https://github.com/wix/DetoxInstrumentsReactNativeUtils#readme"
+  "homepage": "https://github.com/wix/detox-instruments-react-native-utils"
 }

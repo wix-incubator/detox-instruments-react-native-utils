@@ -63,7 +63,14 @@ class ReactNativeTesterApp extends Component
 	{
 		if(this.slowJSTimer)
 		{
-			this.busyBridgeEvent.endInterval(Event.EventStatus.error, "Stopped by user");
+			if(this.busyBridgeEvent == null)
+			{
+				console.log("🚌");
+			}
+			else
+			{
+				this.busyBridgeEvent.endInterval(Event.EventStatus.error, "Stopped by user");
+			}
 			clearTimeout(this.slowJSTimer);
 			this.slowJSTimer = null;
 		}

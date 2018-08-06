@@ -12,16 +12,7 @@ let __dtx_identifierCounter = 0;
 
 function __dtx_generateEventId()
 {
-	let x = (__dtx_identifierCounter += 1);
-	if(x > 100000000)
-	{
-		//After a certain threshold, reset the random string.
-		__dtx_currentRandomString = __dtx_randomString();
-		__dtx_identifierCounter = 0;
-		x = 1;
-	}
-	
-	return __dtx_currentRandomString + "_" + x;
+	return __dtx_currentRandomString + "_" + (__dtx_identifierCounter += 1);
 }
 
 function __dtx_handleEvents() {
@@ -99,7 +90,6 @@ export default class Event
 		this._ended = true;
 		
 		__dtx_enqueueEventSample(1, this._identifier, arguments);
-//		global.dtxMarkEventIntervalEnd(this._internalIdentifiersData, eventStatus, additionalInfo);
 	}
 	
 	static event(category, name, eventStatus, additionalInfo)
@@ -107,8 +97,6 @@ export default class Event
 		if(global.__dtx_markEventBatch_v1 === undefined) { return; }
 		
 		__dtx_enqueueEventSample(10, __dtx_generateEventId(), arguments);
-		
-//		global.dtxMarkEvent(category, name, eventStatus, additionalInfo);
 	}
 }
 
@@ -116,17 +104,39 @@ Event.EventStatus =
 {
 	completed: 0,
 	error: 1,
-	category1: 2,
-	category2: 3,
-	category3: 4,
-	category4: 5,
-	category5: 6,
-	category6: 7,
-	category7: 8,
-	category8: 9,
-	category9: 10,
-	category10: 11,
-	category11: 12,
-	category12: 13,
+	cancelled: 2
 };
 
+function __dtx_generateTimerEventId(timerId)
+{
+	return __dtx_currentRandomString + "_timer_" + timerId;
+}
+
+let __dtx_origSetTimeout = setTimeout;
+let __dtx_origClearTimeout = clearTimeout;
+
+if(global.__dtx_getEventsSettings_v1)
+{
+	const eventsSettings = global.__dtx_getEventsSettings_v1();
+	if(eventsSettings.captureTimers === true)
+	{
+		setTimeout = (func, timeout) => {
+			let eventIdenfitier;
+			let rv = __dtx_origSetTimeout(() => {
+										  __dtx_enqueueEventSample(1, eventIdenfitier, { "0": Event.EventStatus.completed });
+										  func();
+										  }, timeout);
+			eventIdenfitier = __dtx_generateTimerEventId(rv);
+			
+			__dtx_enqueueEventSample(0, eventIdenfitier, { "0": "Timers" , "1": "JavaScript Timer", "2": "Timer " + rv, "3": true, "4": new Error().stack });
+			
+			return rv;
+		};
+		
+		clearTimeout = (identifier) => {
+			__dtx_origClearTimeout(identifier);
+			let eventIdenfitier = __dtx_generateTimerEventId(identifier);
+			__dtx_enqueueEventSample(1, eventIdenfitier, { "0": Event.EventStatus.cancelled });
+		};
+	}
+}
