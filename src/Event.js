@@ -38,13 +38,14 @@ function __dtx_startQueuedEventsConsumerIfNeeded()
 	__dtx_queuedEventsConsumer = setInterval(__dtx_handleEvents, 500);
 }
 
-function __dtx_enqueueEventSample(sampleType, identifier, sampleParams)
+function __dtx_enqueueEventSample(sampleType, identifier, isFromJSTimer, sampleParams)
 {
 	__dtx_queuedEvents.push({
 							"type": sampleType,
 							"identifier": identifier,
 							"timestamp": Date.now(),
-							"params": sampleParams
+							"params": sampleParams,
+							"isFromJSTimer": isFromJSTimer
 							});
 	
 	__dtx_startQueuedEventsConsumerIfNeeded();
@@ -71,7 +72,7 @@ export default class Event
 		
 		this._began = true;
 
-		__dtx_enqueueEventSample(0, this._identifier, { "0": this.category, "1": this.name, "2": additionalInfo });
+		__dtx_enqueueEventSample(0, this._identifier, false, { "0": this.category, "1": this.name, "2": additionalInfo });
 	}
 	
 	endInterval(eventStatus, additionalInfo)
@@ -89,14 +90,14 @@ export default class Event
 		
 		this._ended = true;
 		
-		__dtx_enqueueEventSample(1, this._identifier, arguments);
+		__dtx_enqueueEventSample(1, this._identifier, false, arguments);
 	}
 	
 	static event(category, name, eventStatus, additionalInfo)
 	{
 		if(global.__dtx_markEventBatch_v1 === undefined) { return; }
 		
-		__dtx_enqueueEventSample(10, __dtx_generateEventId(), arguments);
+		__dtx_enqueueEventSample(10, __dtx_generateEventId(), false, arguments);
 	}
 }
 
@@ -117,26 +118,22 @@ let __dtx_origClearTimeout = clearTimeout;
 
 if(global.__dtx_getEventsSettings_v1)
 {
-	const eventsSettings = global.__dtx_getEventsSettings_v1();
-	if(eventsSettings.captureTimers === true)
-	{
-		setTimeout = (func, timeout) => {
-			let eventIdenfitier;
-			let rv = __dtx_origSetTimeout(() => {
-										  __dtx_enqueueEventSample(1, eventIdenfitier, { "0": Event.EventStatus.completed });
-										  func();
-										  }, timeout);
-			eventIdenfitier = __dtx_generateTimerEventId(rv);
-			
-			__dtx_enqueueEventSample(0, eventIdenfitier, { "0": "Timers" , "1": "JavaScript Timer", "2": "Timer " + rv, "3": true, "4": new Error().stack });
-			
-			return rv;
-		};
+	setTimeout = (func, timeout) => {
+		let eventIdenfitier;
+		let rv = __dtx_origSetTimeout(() => {
+									  __dtx_enqueueEventSample(1, eventIdenfitier, true, { "0": Event.EventStatus.completed });
+									  func();
+									  }, timeout);
+		eventIdenfitier = __dtx_generateTimerEventId(rv);
 		
-		clearTimeout = (identifier) => {
-			__dtx_origClearTimeout(identifier);
-			let eventIdenfitier = __dtx_generateTimerEventId(identifier);
-			__dtx_enqueueEventSample(1, eventIdenfitier, { "0": Event.EventStatus.cancelled });
-		};
-	}
+		__dtx_enqueueEventSample(0, eventIdenfitier, true, { "0": "Timers" , "1": "JavaScript Timer", "2": "Timer " + rv, "3": true, "4": new Error().stack });
+		
+		return rv;
+	};
+	
+	clearTimeout = (identifier) => {
+		__dtx_origClearTimeout(identifier);
+		let eventIdenfitier = __dtx_generateTimerEventId(identifier);
+		__dtx_enqueueEventSample(1, eventIdenfitier, true, { "0": Event.EventStatus.cancelled });
+	};
 }
