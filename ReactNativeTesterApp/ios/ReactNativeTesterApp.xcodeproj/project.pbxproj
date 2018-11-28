@@ -22,9 +22,6 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		394EFDD320E14A4A000B5D92 /* DTXProfiler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 394EFDD020E14A30000B5D92 /* DTXProfiler.framework */; };
 		394EFDD420E14A4A000B5D92 /* DTXProfiler.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 394EFDD020E14A30000B5D92 /* DTXProfiler.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		3957E34A21007DFF008A8301 /* index.js in Resources */ = {isa = PBXBuildFile; fileRef = 3957E32521007DFF008A8301 /* index.js */; };
-		3969521A20E4D5F70039F803 /* Event.js in Resources */ = {isa = PBXBuildFile; fileRef = 396951F720E4D5F70039F803 /* Event.js */; };
-		3969521C20E4D5FF0039F803 /* DetoxInstrumentsRNLogger.js in Resources */ = {isa = PBXBuildFile; fileRef = 3969521B20E4D5FF0039F803 /* DetoxInstrumentsRNLogger.js */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 /* End PBXBuildFile section */
@@ -329,6 +326,7 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ReactNativeTesterApp/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ReactNativeTesterApp/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
+		3939226F21AACF330015A15F /* index.ios.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = index.ios.js; path = ../index.ios.js; sourceTree = "<group>"; };
 		394715A920A4778600A7068A /* app.js */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.javascript; name = app.js; path = ../src/app.js; sourceTree = "<group>"; tabWidth = 4; };
 		394EFDCA20E14A2F000B5D92 /* DTXProfiler.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = DTXProfiler.xcodeproj; path = ../../../DetoxInstruments/Profiler/DTXProfiler.xcodeproj; sourceTree = "<group>"; };
 		3957E32521007DFF008A8301 /* index.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = index.js; path = ../../src/index.js; sourceTree = "<group>"; };
@@ -435,6 +433,7 @@
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				394715A920A4778600A7068A /* app.js */,
+				3939226F21AACF330015A15F /* index.ios.js */,
 				3957E32521007DFF008A8301 /* index.js */,
 				396951F720E4D5F70039F803 /* Event.js */,
 				3969521B20E4D5FF0039F803 /* DetoxInstrumentsRNLogger.js */,
@@ -578,6 +577,11 @@
 			attributes = {
 				LastUpgradeCheck = 1010;
 				ORGANIZATIONNAME = Facebook;
+				TargetAttributes = {
+					13B07F861A680F5B00A75B9A = {
+						DevelopmentTeam = S9QFG2VH2E;
+					};
+				};
 			};
 			buildConfigurationList = 83CBB9FA1A601CBA00E9B192 /* Build configuration list for PBXProject "ReactNativeTesterApp" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -907,11 +911,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3957E34A21007DFF008A8301 /* index.js in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				3969521C20E4D5FF0039F803 /* DetoxInstrumentsRNLogger.js in Resources */,
-				3969521A20E4D5F70039F803 /* Event.js in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -978,8 +979,9 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = S9QFG2VH2E;
 				INFOPLIST_FILE = ReactNativeTesterApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -998,8 +1000,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = S9QFG2VH2E;
 				INFOPLIST_FILE = ReactNativeTesterApp/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 12.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1059,7 +1062,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1105,7 +1108,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
