@@ -26,18 +26,30 @@ jest.mock('react-native', () => {
 });
 
 jest.mock('react-native/Libraries/BatchedBridge/BatchedBridge', () => {
-  const queued = {};
+  let cb;
   return {
     enqueueNativeCall: (name, $$, $$$, onSuccess, onFail) => {
-      queued[name] = {onSuccess, onFail};
+      cb = onSuccess;
     },
-    __mockInvokeCallback: (name) => queued[name].onSuccess(),
+    __mockInvokeCallback: () => cb(),
   };
 });
 
 jest.mock('react-native/Libraries/Core/Timers/JSTimers', () => ({
   setTimeout: mockTimeout,
 }));
+
+jest.mock('react-native/Libraries/Animated/src/NativeAnimatedHelper', () => {
+  let cb;
+  return {
+    API: {
+      startAnimatingNode: (node, nodeTag, config, endCallback) => {
+        cb = endCallback;
+      },
+    },
+    __mockInvokeCallback: () => cb(),
+  }
+});
 
 describe('JSPerfProfiler', () => {
 
@@ -96,7 +108,7 @@ describe('JSPerfProfiler', () => {
   it('should time and log events', () => {
     JSPerfProfiler.timeAndLog(() => {}, 'testMessage', 'testModule');
     expect(mockEventConstructor.mock.calls).toEqual([
-      ['Engine', 'testMessage'],
+      ['General', 'testMessage'],
     ]);
     expect(mockBeginInterval).toHaveBeenCalledWith('testModule');
     expect(mockEndInterval).toHaveBeenCalledWith(undefined);
@@ -117,8 +129,8 @@ describe('JSPerfProfiler', () => {
     // BatchedBridge.createDebugLookup(1, 'test', ['a'])
     JSPerfProfiler.executeInContext('testContext', () => {
       BatchedBridge.enqueueNativeCall(
-        '1',
-        'a',
+        '',
+        '',
         [],
         () => {
           expect(JSPerfProfiler.getContext()).toBe('testContext');
@@ -130,7 +142,7 @@ describe('JSPerfProfiler', () => {
         },
       );
     });
-    BatchedBridge.__mockInvokeCallback('1');
+    BatchedBridge.__mockInvokeCallback();
   });
 
   it('Should track context for EventEmitter', (done) => {
@@ -154,6 +166,17 @@ describe('JSPerfProfiler', () => {
       });
     });
     AppRegistry.runApplication('TestApp');
+  });
+
+  it('Should track context for Animated', (done) => {
+    const NativeAnimatedHelper = require('react-native/Libraries/Animated/src/NativeAnimatedHelper');
+    JSPerfProfiler.executeInContext('testContext', () => {
+      NativeAnimatedHelper.API.startAnimatingNode('', '', '', () => {
+        expect(JSPerfProfiler.getContext()).toBe('testContext');
+        done();
+      });
+    });
+    NativeAnimatedHelper.__mockInvokeCallback();
   });
 });
 

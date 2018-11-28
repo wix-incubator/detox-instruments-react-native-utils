@@ -4,33 +4,46 @@ const contextStack = [];
 
 const accTimeByContext = {};
 
+let timer;
+
 export const executeInContext = (context, fn, ...args) => {
   if (!accTimeByContext[context]) {
     accTimeByContext[context] = 0;
   }
+  const prevContext = getContext();
+  if (prevContext) {
+    accTimeByContext[prevContext] += (now() - timer);
+  }
+  timer = now();
   contextStack.push(context);
-  accTimeByContext[context] -= Date.now();
   const result = fn(...args);
-  accTimeByContext[context] += Date.now();
   contextStack.pop();
+  accTimeByContext[context] += (now() - timer);
+  timer = now();
   return result;
 };
 
 const bindContext = (context, fn) => (...args) => executeInContext(context, fn, ...args);
 
 export const getContext = () => contextStack[contextStack.length - 1];
-export const getPerfInfo = () => Object.assign({}, accTimeByContext);
+export const getPerfInfo = () => accTimeByContext;
+export const clearPerfInfo = () => {
+  Object.keys(accTimeByContext).forEach((k) => accTimeByContext[k] = 0);
+}
 
 export const attach = () => {
-  attachRequire();
-  patchTimer('setTimeout');
-  patchTimer('setInterval');
-  patchTimer('setImmediate');
-  patchTimer('requestAnimationFrame');
-  patchTimer('requestIdleCallback');
-  patchBridge();
-  patchEventEmitter();
-  patchAppRegistry();
+  if (__DEV__) {
+    attachRequire();
+    patchTimer('setTimeout');
+    patchTimer('setInterval');
+    patchTimer('setImmediate');
+    patchTimer('requestAnimationFrame');
+    patchTimer('requestIdleCallback');
+    patchBridge();
+    patchEventEmitter();
+    patchAppRegistry();
+    patchAnimated();
+  }
 };
 
 export const attachRequire = () => {
@@ -59,7 +72,7 @@ const patchTimer = (timerName) => {
   const JSTimers = require('react-native/Libraries/Core/Timers/JSTimers');
   const originalTimer = JSTimers[timerName];
   const patchedTimer = (fn, ...args) => {
-    const context = getContext();
+    let context = getContext();
     // if (!context) { debugger; };
     return originalTimer((...a) => timeAndLog(
       () => fn(...a),
@@ -72,13 +85,25 @@ const patchTimer = (timerName) => {
   defineProperty(global, timerName, patchedTimer);
 };
 
+const patchAnimated = () => {
+  const NativeAnimatedHelper = require('react-native/Libraries/Animated/src/NativeAnimatedHelper');
+  const orig = NativeAnimatedHelper.API.startAnimatingNode;
+  NativeAnimatedHelper.API.startAnimatingNode = (node, nodeTag, config, endCallback) => {
+    let context = getContext();
+    if (!context) {
+      context = 'untrackableAnimation';
+    };
+    return orig(node, nodeTag, config, bindContext(context, endCallback));
+  }
+}
+
 const patchBridge = () => {
   const BatchedBridge = require('react-native/Libraries/BatchedBridge/BatchedBridge');
   const orig = BatchedBridge.enqueueNativeCall.bind(BatchedBridge);
 
   BatchedBridge.enqueueNativeCall = (moduleID, methodID, args, resolve, reject) => {
-    const context = getContext();
-    // if (!context) { debugger; };
+    let context = getContext();
+    // if ((resolve || reject) && !context) { debugger; };
     return orig(
       moduleID,
       methodID,
@@ -94,7 +119,7 @@ const patchEventEmitter = () => {
   const orig = NativeEventEmitter.prototype.addListener;
 
   NativeEventEmitter.prototype.addListener = function (eventType, listener, ...a) {
-    const context = getContext();
+    let context = getContext();
     // if (!context) { debugger; };
     return orig.call(
       this,
@@ -113,7 +138,7 @@ const patchAppRegistry = () => {
   ['registerComponent', 'registerRunnable'].forEach((regName) => {
     const orig = AppRegistry[regName];
     AppRegistry[regName] = (appKey, ...props) => {
-      const context = getContext();
+      let context = getContext();
       // if (!context) { debugger; };
       contextsByAppKeys[appKey] = context;
       return orig(appKey, ...props);
@@ -122,7 +147,7 @@ const patchAppRegistry = () => {
 
   const origRun = AppRegistry.runApplication;
   AppRegistry.runApplication = (appKey, ...args) => {
-    const context = contextsByAppKeys[appKey];
+    let context = contextsByAppKeys[appKey];
     // if (!context) { debugger; };
     return executeInContext(context, origRun, appKey, ...args);
   };
@@ -152,12 +177,19 @@ const defineProperty = (object, name, value) => {
   });
 };
 
-export const timeAndLog = (fn, message, moduleContext, scope = 'Engine') => {
+const now = (() => {
+  if (typeof performance === 'object' && performance.now) {
+    return performance.now.bind(performance);
+  }
+  return Date.now.bind(Date);
+})()
+
+export const timeAndLog = (fn, message, context, scope = 'General') => {
   /* istanbul ignore else */
   if (__DEV__) {
     const event = new Event(scope, message);
-    event.beginInterval(moduleContext);
-    executeInContext(moduleContext, fn);
+    event.beginInterval(context);
+    executeInContext(context, fn);
     event.endInterval(Event.EventStatus.completed);
   } else {
     fn();
@@ -166,4 +198,3 @@ export const timeAndLog = (fn, message, moduleContext, scope = 'Engine') => {
 
 // Used in unit tests
 export const $require = require;
-

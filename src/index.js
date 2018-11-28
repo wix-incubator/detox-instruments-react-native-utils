@@ -1,6 +1,6 @@
 import './DetoxInstrumentsRNLogger';
 import Event from './Event';
-import JSPerfProfiler from './JSPerfProfiler';
+import * as JSPerfProfiler from './JSPerfProfiler';
 
 module.exports = {
   Event,
