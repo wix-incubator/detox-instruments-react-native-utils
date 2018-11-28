@@ -12,9 +12,57 @@
     "email": "artald@wix.com",
     "url": ""
   },
+  "scripts": {
+    "test": "jest"
+  },
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/wix/DetoxInstruments/issues"
   },
-  "homepage": "https://github.com/wix/detox-instruments-react-native-utils"
+  "homepage": "https://github.com/wix/detox-instruments-react-native-utils",
+  "peerDependencies": {
+    "react-native": "*"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.1.6",
+    "babel-jest": "^23.6.0",
+    "babel-preset-react-native": "^4.0.1",
+    "jest": "^23.6.0",
+    "react-native": "^0.57.204"
+  },
+  "babel": {
+    "env": {
+      "test": {
+        "presets": [
+          "react-native"
+        ],
+        "retainLines": true
+      }
+    }
+  },
+  "jest": {
+    "transformIgnorePatterns": [],
+    "moduleNameMapper": {
+      "^image![a-zA-Z0-9$_-]+$": "GlobalImageStub",
+      "^[@./a-zA-Z0-9$_-]+\\.(png|gif)$": "RelativeImageStub"
+    },
+    "preset": "react-native",
+    "roots": [
+      "node_modules",
+      "src"
+    ],
+    "resetMocks": true,
+    "resetModules": true,
+    "testPathIgnorePatterns": [
+      "/node_modules/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "statements": 100,
+        "branches": 100,
+        "functions": 100,
+        "lines": 100
+      }
+    }
+  }
 }
