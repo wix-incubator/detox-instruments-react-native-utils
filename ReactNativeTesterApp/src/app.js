@@ -1,6 +1,6 @@
 
 import React, {Component} from 'react';
-import {AppRegistry, StyleSheet, View, Text, TouchableOpacity} from 'react-native';
+import {AppRegistry, StyleSheet, View, Text, Button} from 'react-native';
 import { Event } from 'detox-instruments-react-native-utils';
 
 class ReactNativeTesterApp extends Component
@@ -100,17 +100,36 @@ class ReactNativeTesterApp extends Component
 		}
 	}
 	
+	onNetwork()
+	{
+		fetch('https://jsonplaceholder.typicode.com/photos')
+		.then(function(response)
+			  {
+			  return response.json();
+			  })
+		.then(function(myJson)
+			  {
+			  let count = 0;
+			  for(img of myJson)
+			  {
+			  fetch(img["thumbnailUrl"])
+			  .then(function(response) {
+					console.log("Got an image");
+					});
+			  count+=1;
+			  if(count >= 50) { return; }
+			  }
+			  });
+	}
+	
 	render()
 	{
 		return (
 				<View style={styles.container}>
-				<TouchableOpacity style={styles.button} onPress={() => this.onSlowJSThread()}>
-				<Text style={styles.buttonText}>Slow JS Thread</Text>
-				</TouchableOpacity>
-				<TouchableOpacity style={styles.button} onPress={() => this.onBusyBridge()}>
-				<Text style={styles.buttonText}>Busy Bridge</Text>
-				</TouchableOpacity>
-				<Text>Counter: {this.state.counter}</Text>
+					<Button title="Slow JS Thread"		style={styles.button} onPress={() => this.onSlowJSThread()} />
+					<Button title="Busy Bridge" 		style={styles.button} onPress={() => this.onBusyBridge()} />
+					<Text>Counter: {this.state.counter}</Text>
+					<Button title="Network Requests" 	style={styles.button} onPress={() => this.onNetwork()} />
 				</View>
 				);
 	}
