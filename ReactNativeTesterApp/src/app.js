@@ -122,6 +122,49 @@ class ReactNativeTesterApp extends Component
 			  });
 	}
 	
+	onTenEvents()
+	{
+		let test = new Event("Detox Instruments RN Test App", "Ten Events");
+		test.beginInterval(null);
+		test.endInterval(Event.EventStatus.completed, null);
+		
+		test = new Event("Detox Instruments RN Test App", "Ten Events");
+		test.beginInterval(null);
+		test.endInterval(Event.EventStatus.completed, null);
+		
+		test = new Event("Detox Instruments RN Test App", "Ten Events");
+		test.beginInterval(null);
+		test.endInterval(Event.EventStatus.completed, null);
+		
+		test = new Event("Detox Instruments RN Test App", "Ten Events");
+		test.beginInterval(null);
+		test.endInterval(Event.EventStatus.completed, null);
+		
+		test = new Event("Detox Instruments RN Test App", "Ten Events");
+		test.beginInterval(null);
+		test.endInterval(Event.EventStatus.completed, null);
+		
+		test = new Event("Detox Instruments RN Test App", "Ten Events");
+		test.beginInterval(null);
+		test.endInterval(Event.EventStatus.completed, null);
+		
+		test = new Event("Detox Instruments RN Test App", "Ten Events");
+		test.beginInterval(null);
+		test.endInterval(Event.EventStatus.completed, null);
+		
+		test = new Event("Detox Instruments RN Test App", "Ten Events");
+		test.beginInterval(null);
+		test.endInterval(Event.EventStatus.completed, null);
+		
+		test = new Event("Detox Instruments RN Test App", "Ten Events");
+		test.beginInterval(null);
+		test.endInterval(Event.EventStatus.completed, null);
+		
+		test = new Event("Detox Instruments RN Test App", "Ten Events");
+		test.beginInterval(null);
+		test.endInterval(Event.EventStatus.completed, null);
+	}
+	
 	render()
 	{
 		return (
@@ -130,6 +173,7 @@ class ReactNativeTesterApp extends Component
 					<Button title="Busy Bridge" 		style={styles.button} onPress={() => this.onBusyBridge()} />
 					<Text>Counter: {this.state.counter}</Text>
 					<Button title="Network Requests" 	style={styles.button} onPress={() => this.onNetwork()} />
+					<Button title="10 Events" 			style={styles.button} onPress={() => this.onTenEvents()} />
 				</View>
 				);
 	}
