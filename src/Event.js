@@ -1,6 +1,3 @@
-let __dtx_queuedEvents = new Array();
-let __dtx_queuedEventsConsumer = null;
-
 function __dtx_randomString()
 {
 	let N = 32;
@@ -15,40 +12,14 @@ function __dtx_generateEventId()
 	return __dtx_currentRandomString + "_" + (__dtx_identifierCounter += 1);
 }
 
-function __dtx_handleEvents() {
-	if(__dtx_queuedEvents.length === 0)
-	{
-		clearInterval(__dtx_queuedEventsConsumer);
-		__dtx_queuedEventsConsumer = null;
-		
-		return;
-	}
-	
-	global.__dtx_markEventBatch_v1(__dtx_queuedEvents);
-	__dtx_queuedEvents = new Array();
-}
-
-function __dtx_startQueuedEventsConsumerIfNeeded()
-{
-	if(__dtx_queuedEventsConsumer !== null)
-	{
-		return;
-	}
-	
-	__dtx_queuedEventsConsumer = setInterval(__dtx_handleEvents, 500);
-}
-
 function __dtx_enqueueEventSample(sampleType, identifier, isFromJSTimer, sampleParams)
 {
-	__dtx_queuedEvents.push({
+	global.__dtx_markEvent_v2({
 							"type": sampleType,
 							"identifier": identifier,
-							"timestamp": Date.now(),
 							"params": sampleParams,
 							"isFromJSTimer": isFromJSTimer
 							});
-	
-	__dtx_startQueuedEventsConsumerIfNeeded();
 }
 
 export default class Event
@@ -65,7 +36,7 @@ export default class Event
 	beginInterval(additionalInfo)
 	{
 		//Global hook is not installed.
-		if(global.__dtx_markEventBatch_v1 === undefined) { return; }
+		if(global.__dtx_markEvent_v2 === undefined) { return; }
 		
 		//Already began the interval.
 		if(this._began === true) { return; }
@@ -78,7 +49,7 @@ export default class Event
 	endInterval(eventStatus, additionalInfo)
 	{
 		//Global hook is not installed.
-		if(global.__dtx_markEventBatch_v1 === undefined) { return; }
+		if(global.__dtx_markEvent_v2 === undefined) { return; }
 		
 		//Already ended the interval.
 		if(this._ended === true) { return; }
@@ -95,7 +66,7 @@ export default class Event
 	
 	static event(category, name, eventStatus, additionalInfo)
 	{
-		if(global.__dtx_markEventBatch_v1 === undefined) { return; }
+		if(global.__dtx_markEvent_v2 === undefined) { return; }
 		
 		__dtx_enqueueEventSample(10, __dtx_generateEventId(), false, arguments);
 	}
