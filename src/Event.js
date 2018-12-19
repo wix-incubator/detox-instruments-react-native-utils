@@ -87,7 +87,7 @@ function __dtx_generateTimerEventId(timerId)
 let __dtx_origSetTimeout = setTimeout;
 let __dtx_origClearTimeout = clearTimeout;
 
-if(global.__dtx_getEventsSettings_v1)
+if(global.__dtx_getEventsSettings_v1 && global.__dtx_markEvent_v2)
 {
 	setTimeout = (func, timeout) => {
 		let eventIdenfitier;
