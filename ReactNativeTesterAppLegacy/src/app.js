@@ -69,7 +69,7 @@ class ReactNativeTesterApp extends Component
 			}
 			else
 			{
-				this.busyBridgeEvent.endInterval(Event.EventStatus.error, "Stopped by user");
+				this.busyBridgeEvent.endInterval(Event.EventStatus.cancelled, "Stopped by user");
 			}
 			clearTimeout(this.slowJSTimer);
 			this.slowJSTimer = null;
@@ -125,44 +125,44 @@ class ReactNativeTesterApp extends Component
 	onTenEvents()
 	{
 		let test = new Event("Detox Instruments RN Test App", "Ten Events");
-		test.beginInterval(null);
-		test.endInterval(Event.EventStatus.completed, null);
+		test.beginInterval("1");
+		test.endInterval(Event.EventStatus.completed, "end 1");
 		
 		test = new Event("Detox Instruments RN Test App", "Ten Events");
-		test.beginInterval(null);
-		test.endInterval(Event.EventStatus.completed, null);
+		test.beginInterval("2");
+		test.endInterval(Event.EventStatus.completed, "end 2");
 		
 		test = new Event("Detox Instruments RN Test App", "Ten Events");
-		test.beginInterval(null);
-		test.endInterval(Event.EventStatus.completed, null);
+		test.beginInterval("3");
+		test.endInterval(Event.EventStatus.completed, "end 3");
 		
 		test = new Event("Detox Instruments RN Test App", "Ten Events");
-		test.beginInterval(null);
-		test.endInterval(Event.EventStatus.completed, null);
+		test.beginInterval("4");
+		test.endInterval(Event.EventStatus.completed, "end 4");
 		
 		test = new Event("Detox Instruments RN Test App", "Ten Events");
-		test.beginInterval(null);
-		test.endInterval(Event.EventStatus.completed, null);
+		test.beginInterval("5");
+		test.endInterval(Event.EventStatus.completed, "end 5");
 		
 		test = new Event("Detox Instruments RN Test App", "Ten Events");
-		test.beginInterval(null);
-		test.endInterval(Event.EventStatus.completed, null);
+		test.beginInterval("6");
+		test.endInterval(Event.EventStatus.completed, "end 6");
 		
 		test = new Event("Detox Instruments RN Test App", "Ten Events");
-		test.beginInterval(null);
-		test.endInterval(Event.EventStatus.completed, null);
+		test.beginInterval("7");
+		test.endInterval(Event.EventStatus.completed, "end 7");
 		
 		test = new Event("Detox Instruments RN Test App", "Ten Events");
-		test.beginInterval(null);
-		test.endInterval(Event.EventStatus.completed, null);
+		test.beginInterval("8");
+		test.endInterval(Event.EventStatus.completed, "end 8");
 		
 		test = new Event("Detox Instruments RN Test App", "Ten Events");
-		test.beginInterval(null);
-		test.endInterval(Event.EventStatus.completed, null);
+		test.beginInterval("9");
+		test.endInterval(Event.EventStatus.completed, "end 9");
 		
 		test = new Event("Detox Instruments RN Test App", "Ten Events");
-		test.beginInterval(null);
-		test.endInterval(Event.EventStatus.completed, null);
+		test.beginInterval("10");
+		test.endInterval(Event.EventStatus.completed, "end 10");
 	}
 	
 	render()

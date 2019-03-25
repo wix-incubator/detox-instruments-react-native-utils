@@ -1,14 +1,25 @@
 {
   "name": "ReactNativeTesterApp",
-  "version": "1.0.0",
-  "private": false,
+  "version": "0.0.1",
+  "private": true,
   "scripts": {
-    "start": "react-native start"
+    "start": "node node_modules/react-native/local-cli/cli.js start",
+    "lint": "eslint ."
   },
   "dependencies": {
-    "detox-instruments-react-native-utils": "file:../",
-    "react": "16.4.1",
-    "react-native": "^0.56.0"
+    "detox-instruments-react-native-utils": "^3.0.1",
+    "react": "16.8.3",
+    "react-native": "0.59.1"
   },
-  "main": "index.js"
+  "devDependencies": {
+    "@babel/core": "^7.4.0",
+    "@babel/runtime": "^7.4.2",
+    "@react-native-community/eslint-config": "^0.0.3",
+    "babel-jest": "^24.5.0",
+    "eslint": "^5.15.3",
+    "metro-react-native-babel-preset": "^0.53.1"
+  },
+  "jest": {
+    "preset": "react-native"
+  }
 }
