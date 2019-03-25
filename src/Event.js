@@ -33,7 +33,7 @@ export default class Event
 		this._identifier = __dtx_generateEventId();
 	}
 	
-	beginInterval(additionalInfo)
+	beginInterval(message)
 	{
 		//Global hook is not installed.
 		if(global.__dtx_markEvent_v2 === undefined) { return; }
@@ -43,10 +43,10 @@ export default class Event
 		
 		this._began = true;
 
-		__dtx_enqueueEventSample(0, this._identifier, false, { "0": this.category, "1": this.name, "2": additionalInfo });
+		__dtx_enqueueEventSample(0, this._identifier, false, { "0": this.category, "1": this.name, "2": message });
 	}
 	
-	endInterval(eventStatus, additionalInfo)
+	endInterval(eventStatus, message)
 	{
 		//Global hook is not installed.
 		if(global.__dtx_markEvent_v2 === undefined) { return; }
@@ -64,7 +64,7 @@ export default class Event
 		__dtx_enqueueEventSample(1, this._identifier, false, arguments);
 	}
 	
-	static event(category, name, eventStatus, additionalInfo)
+	static event(category, name, eventStatus, message)
 	{
 		if(global.__dtx_markEvent_v2 === undefined) { return; }
 		
