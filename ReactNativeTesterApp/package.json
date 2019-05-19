@@ -9,7 +9,7 @@
   "dependencies": {
     "detox-instruments-react-native-utils": "^3.0.1",
     "react": "16.8.3",
-    "react-native": "0.59.1"
+    "react-native": "0.59.8"
   },
   "devDependencies": {
     "@babel/core": "^7.4.0",

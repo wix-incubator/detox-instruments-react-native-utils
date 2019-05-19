@@ -124,6 +124,8 @@ export default class ReactNativeTesterApp extends Component
 	
 	onTenEvents()
 	{
+		console.log("Starting 10 events");
+		
 		let test = new Event("Detox Instruments RN Test App", "Ten Events");
 		test.beginInterval("1");
 		test.endInterval(Event.EventStatus.completed, "end 1");
