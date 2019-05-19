@@ -25,8 +25,8 @@
 		391A227E2247A48F006701D7 /* index.js in Resources */ = {isa = PBXBuildFile; fileRef = 391A227D2247A48F006701D7 /* index.js */; };
 		391A22802247A497006701D7 /* Event.js in Resources */ = {isa = PBXBuildFile; fileRef = 391A227F2247A497006701D7 /* Event.js */; };
 		391A22822247A49B006701D7 /* DetoxInstrumentsRNLogger.js in Resources */ = {isa = PBXBuildFile; fileRef = 391A22812247A49B006701D7 /* DetoxInstrumentsRNLogger.js */; };
-		391A22EE2247AC18006701D7 /* DTXProfiler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 391A22A12247A4FD006701D7 /* DTXProfiler.framework */; };
-		391A22EF2247AC18006701D7 /* DTXProfiler.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 391A22A12247A4FD006701D7 /* DTXProfiler.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		395C89BA2251F9C20090DFAC /* DTXProfiler.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 391A22A12247A4FD006701D7 /* DTXProfiler.framework */; };
+		395C89BB2251F9C20090DFAC /* DTXProfiler.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 391A22A12247A4FD006701D7 /* DTXProfiler.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		ED297163215061F000B7C4FE /* JavaScriptCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED297162215061F000B7C4FE /* JavaScriptCore.framework */; };
@@ -187,7 +187,7 @@
 			remoteGlobalIDString = 39D40BF91ED5ABD200157C04;
 			remoteInfo = DTXProfiler;
 		};
-		391A22F02247AC18006701D7 /* PBXContainerItemProxy */ = {
+		395C89BC2251F9C20090DFAC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 391A229B2247A4FD006701D7 /* DTXProfiler.xcodeproj */;
 			proxyType = 1;
@@ -309,13 +309,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
-		391A23172247AC18006701D7 /* Embed Frameworks */ = {
+		395C89E32251F9C20090DFAC /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				391A22EF2247AC18006701D7 /* DTXProfiler.framework in Embed Frameworks */,
+				395C89BB2251F9C20090DFAC /* DTXProfiler.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -366,7 +366,7 @@
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
 				00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */,
 				133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */,
-				391A22EE2247AC18006701D7 /* DTXProfiler.framework in Frameworks */,
+				395C89BA2251F9C20090DFAC /* DTXProfiler.framework in Frameworks */,
 				00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */,
 				139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */,
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
@@ -587,12 +587,12 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				391A23172247AC18006701D7 /* Embed Frameworks */,
+				395C89E32251F9C20090DFAC /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				391A22F12247AC18006701D7 /* PBXTargetDependency */,
+				395C89BD2251F9C20090DFAC /* PBXTargetDependency */,
 			);
 			name = ReactNativeTesterApp;
 			productName = "Hello World";
@@ -996,10 +996,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		391A22F12247AC18006701D7 /* PBXTargetDependency */ = {
+		395C89BD2251F9C20090DFAC /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = DTXProfiler;
-			targetProxy = 391A22F02247AC18006701D7 /* PBXContainerItemProxy */;
+			targetProxy = 395C89BC2251F9C20090DFAC /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
