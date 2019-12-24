@@ -97,7 +97,7 @@ if(global.__dtx_getEventsSettings_v1 && global.__dtx_markEvent_v2)
 									  }, timeout);
 		eventIdenfitier = __dtx_generateTimerEventId(rv);
 		
-		__dtx_enqueueEventSample(0, eventIdenfitier, true, { "0": "Timers" , "1": "JavaScript Timer", "2": "Timer " + rv, "3": true, "4": new Error().stack });
+		__dtx_enqueueEventSample(0, eventIdenfitier, true, { "0": "JS Timer" , "1": "JavaScript Timer " + rv, "3": true, "4": new Error().stack });
 		
 		return rv;
 	};
