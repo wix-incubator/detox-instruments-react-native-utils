@@ -2,6 +2,7 @@
 import React, {Component} from 'react';
 import {AppRegistry, StyleSheet, View, Text, Button} from 'react-native';
 import { Event } from 'detox-instruments-react-native-utils';
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default class ReactNativeTesterApp extends Component
 {
@@ -12,6 +13,24 @@ export default class ReactNativeTesterApp extends Component
 		this.slowBridgeTimer = null;
 		this.state = {counter: 0};
 		this.busyBridgeEvent = null;
+    
+		setInterval(async () => {
+			for(let i = 0; i < 10; i++)
+			{
+				AsyncStorage.setItem('@storage_Key', 'stored value').then(() => {
+					const firstPair = ["@MyApp_user", JSON.stringify({"employees":[{"firstName":"John", "lastName":"Doe"},{"firstName":"Anna", "lastName":"Smith"},{"firstName":"Peter", "lastName":"Jones"}]})];
+					const secondPair = ["@MyApp_key", "value_2"];
+					AsyncStorage.multiSet([firstPair, secondPair]).then(() => {
+						AsyncStorage.getAllKeys().then((zzz) => {
+							// console.log(zzz);
+							AsyncStorage.multiGet(zzz).then((yyy) => {
+								// console.log(yyy);
+							});
+						});
+					});
+				});
+			}
+		}, 1000);
 	}
 	
 	_performTask()
@@ -31,8 +50,8 @@ export default class ReactNativeTesterApp extends Component
 		this._performTask();
 		test.endInterval(Event.EventStatus.completed, "More info 2");
 		this.slowJSTimer = setTimeout(() => {
-									  this._startSlowJSTimer();
-									  }, 3500);
+			this._startSlowJSTimer();
+		}, 3500);
 	}
 	
 	_startBusyBridgeTimer()
@@ -52,11 +71,11 @@ export default class ReactNativeTesterApp extends Component
 		}
 		
 		this.setState({counter: this.state.counter + 1}, () => {
-					  Event.event("Detox Instruments RN Test App", "Busy Bridge", (this.state.counter % 12) + 2, "Completed iteration");
-					  this.slowBridgeTimer = setTimeout(() => {
-														this._startBusyBridgeTimer();
-														}, 30);
-					  });
+			Event.event("Detox Instruments RN Test App", "Busy Bridge", (this.state.counter % 12) + 2, "Completed iteration");
+			this.slowBridgeTimer = setTimeout(() => {
+				this._startBusyBridgeTimer();
+			}, 30);
+		});
 	}
 	
 	onSlowJSThread()
@@ -95,8 +114,8 @@ export default class ReactNativeTesterApp extends Component
 		else
 		{
 			this.setState({counter: 0}, () => {
-						  this._startBusyBridgeTimer();
-						  });
+				this._startBusyBridgeTimer();
+			});
 		}
 	}
 	
@@ -104,22 +123,22 @@ export default class ReactNativeTesterApp extends Component
 	{
 		fetch('https://jsonplaceholder.typicode.com/photos')
 		.then(function(response)
-			  {
-			  return response.json();
-			  })
+		{
+			return response.json();
+		})
 		.then(function(myJson)
-			  {
-			  let count = 0;
-			  for(img of myJson)
-			  {
-			  fetch(img["thumbnailUrl"])
-			  .then(function(response) {
+		{
+			let count = 0;
+			for(img of myJson)
+			{
+				fetch(img["thumbnailUrl"])
+				.then(function(response) {
 					console.log("Got an image");
-					});
-			  count+=1;
-			  if(count >= 50) { return; }
-			  }
-			  });
+				});
+				count+=1;
+				if(count >= 50) { return; }
+			}
+		});
 	}
 	
 	onTenEvents()
@@ -170,39 +189,39 @@ export default class ReactNativeTesterApp extends Component
 	render()
 	{
 		return (
-				<View style={styles.container}>
-					<Button title="Slow JS Thread"    style={styles.button} onPress={() => this.onSlowJSThread()} />
-          <Button title="Busy Bridge"     style={styles.button} onPress={() => this.onBusyBridge()} />
-          <Text>Counter: {this.state.counter}</Text>
-          <Button title="Network Requests"   style={styles.button} onPress={() => this.onNetwork()} />
-          <Button title="10 Events" 			style={styles.button} onPress={() => this.onTenEvents()} />
-				</View>
-				);
+			<View style={styles.container}>
+			<Button title="Slow JS Thread"    style={styles.button} onPress={() => this.onSlowJSThread()} />
+			<Button title="Busy Bridge"     style={styles.button} onPress={() => this.onBusyBridge()} />
+			<Text>Counter: {this.state.counter}</Text>
+			<Button title="Network Requests"   style={styles.button} onPress={() => this.onNetwork()} />
+			<Button title="10 Events" 			style={styles.button} onPress={() => this.onTenEvents()} />
+			</View>
+		);
 	}
 }
 
 const styles = StyleSheet.create({
-								 container: {
-								 flex: 1,
-								 justifyContent: 'center',
-								 alignItems: 'center',
-								 backgroundColor: '#F5FCFF',
-								 },
-								 button: {
-								 height: 40,
-								 justifyContent: 'center'
-								 },
-								 buttonText: {
-								 fontSize: 20,
-								 textAlign: 'center',
-								 margin: 10,
-								 },
-								 });
+	container: {
+		flex: 1,
+		justifyContent: 'center',
+		alignItems: 'center',
+		backgroundColor: '#F5FCFF',
+	},
+	button: {
+		height: 40,
+		justifyContent: 'center'
+	},
+	buttonText: {
+		fontSize: 20,
+		textAlign: 'center',
+		margin: 10,
+	},
+});
 
-//import MessageQueue from 'react-native/Libraries/BatchedBridge/MessageQueue.js';
+// import MessageQueue from 'react-native/Libraries/BatchedBridge/MessageQueue.js';
 //
-//const spyFunction = (msg) => {
-//	global.nativeLoggingHook(JSON.stringify(msg));
-//};
+// const spyFunction = (msg) => {
+//   global.nativeLoggingHook(JSON.stringify(msg));
+// };
 //
-//MessageQueue.spy(spyFunction);
+// MessageQueue.spy(spyFunction);
