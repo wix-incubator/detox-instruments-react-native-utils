@@ -4,6 +4,8 @@ import {AppRegistry, StyleSheet, View, Text, Button} from 'react-native';
 import { Event } from 'detox-instruments-react-native-utils';
 import AsyncStorage from '@react-native-community/async-storage';
 
+console.disableYellowBox = true;
+
 export default class ReactNativeTesterApp extends Component
 {
 	constructor(props)
@@ -15,21 +17,31 @@ export default class ReactNativeTesterApp extends Component
 		this.busyBridgeEvent = null;
     
 		setInterval(async () => {
-			for(let i = 0; i < 10; i++)
-			{
-				AsyncStorage.setItem('@storage_Key', 'stored value').then(() => {
-					const firstPair = ["@MyApp_user", JSON.stringify({"employees":[{"firstName":"John", "lastName":"Doe"},{"firstName":"Anna", "lastName":"Smith"},{"firstName":"Peter", "lastName":"Jones"}]})];
-					const secondPair = ["@MyApp_key", "value_2"];
-					AsyncStorage.multiSet([firstPair, secondPair]).then(() => {
-						AsyncStorage.getAllKeys().then((zzz) => {
-							// console.log(zzz);
-							AsyncStorage.multiGet(zzz).then((yyy) => {
-								// console.log(yyy);
+			const eitherWay = () => {
+				for(let i = 0; i < 10; i++)
+				{
+					AsyncStorage.setItem('@username', 'ExampleUser25').then(() => {
+						const firstPair = ["@token", "d029f87e3d80f8fd9b1be67c7426b4cc1ff47b4a9d0a8461c826a59d8c5eb6cd"];
+						const secondPair = ["@settings", JSON.stringify({"theme":"dark", "timeBeforeLockout":"30", "lastVisitedTopics": ["78923", "234555", "92637", "6627128"]})];
+						AsyncStorage.multiSet([firstPair, secondPair]).then(() => {
+							AsyncStorage.getAllKeys().then((zzz) => {
+								// console.log(zzz);
+								AsyncStorage.multiGet(zzz).then((yyy) => {
+									AsyncStorage.getItem('Nopenopenope').then(() => {
+									});
+									// console.log(yyy);
+								});
 							});
 						});
 					});
-				});
-			}
+				}
+			};
+			
+			AsyncStorage.clear().then(() => {
+				eitherWay();
+			}).catch(() => {
+				eitherWay();
+			});
 		}, 1000);
 	}
 	
