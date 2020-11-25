@@ -16,5 +16,6 @@
   "bugs": {
     "url": "https://github.com/wix/DetoxInstruments/issues"
   },
-  "homepage": "https://github.com/wix/detox-instruments-react-native-utils"
+  "homepage": "https://github.com/wix/detox-instruments-react-native-utils",
+  "types": "index.d.ts"
 }
